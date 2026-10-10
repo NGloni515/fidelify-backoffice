@@ -14,6 +14,20 @@ npm run dev    # http://localhost:5173
 El backend (`fidelify-backend`) debe estar corriendo en `http://localhost:3000`; Vite reenvía `/api` hacia él.
 En producción, define `VITE_API_URL` con la URL del backend (ver `.env.example`).
 
+## Documentación
+
+| Qué | Dónde |
+| --- | --- |
+| Guía para agentes | [`CLAUDE.md`](CLAUDE.md) |
+| Contexto y arquitectura | [`agent/project-overview.md`](agent/project-overview.md) |
+| Estándares de código | [`agent/coding-standards.md`](agent/coding-standards.md) |
+| Flujo de trabajo | [`agent/ai-interaction.md`](agent/ai-interaction.md) |
+| Caja | [`agent/features/modulo_caja.md`](agent/features/modulo_caja.md) |
+| Estilos | [`design-system.md`](design-system.md) |
+
+El contrato de los endpoints está del lado del backend, en
+`../fidelify-backend/agent/features/modulo_sellos.md`.
+
 ## Estado
 
 | Sección | Estado |
