@@ -12,8 +12,8 @@ tarjeta, cupones, mensajes y equipo.
 cliente, no técnicos, y la pantalla de caja se usa desde un celular o una tablet
 sobre el mostrador, con clientes esperando.
 
-Hoy solo la **caja** es funcional. Las demás secciones son marcadores, y no hay
-inicio de sesión.
+Hoy funcionan el **inicio de sesión** y la **caja**. Las demás secciones son
+marcadores.
 
 ## La lógica de negocio vive en el backend
 
@@ -46,9 +46,10 @@ Este panel lleva la marca de **Fidelify**. La página pública
 - @agent/coding-standards.md
 - @agent/ai-interaction.md
 
-Detalle de la caja: `agent/features/modulo_caja.md`. El contrato de los
-endpoints está del lado del backend, en
-`../fidelify-backend/agent/features/modulo_sellos.md`.
+Detalle por módulo: `agent/features/modulo_sesion.md` y
+`agent/features/modulo_caja.md`. El contrato de los endpoints está del lado del
+backend, en `../fidelify-backend/agent/features/modulo_auth.md` y
+`modulo_sellos.md`.
 
 ## Comandos
 
@@ -81,6 +82,9 @@ npm --prefix ../fidelify-backend run start:dev   # :3000
 npm run dev                                      # :5173
 ```
 
+Para entrar: el seed del backend crea una dueña y una cajera; sus correos y su
+contraseña están en `../fidelify-backend/.env.example`.
+
 Para tener una tarjeta que escanear: inscribirse en
 `http://localhost:5174/join/heladeria-demo` (`fidelify-web`) y usar el código
 `FL-…` que aparece al final.
@@ -103,14 +107,17 @@ Dos cosas que confunden:
 | UI | React 19. **Sin librería de componentes**: CSS propio en `src/index.css` |
 | Rutas | React Router 8, declaradas a mano en `src/main.tsx` |
 | Datos | TanStack Query 5 |
-| HTTP | `fetch` + envoltorio en `src/api/client.ts`. Sin axios |
+| HTTP | `fetch` + envoltorio en `src/api/http.ts` y `src/api/client.ts`. Sin axios |
+| Sesión | access token en memoria, refresh en cookie `HttpOnly` (`src/auth/session.ts`) |
 | Escáner | `html5-qrcode`, cargado solo al entrar a `/caja` |
 | Lint | oxlint. Sin Prettier ni ESLint |
 | Estado global | ninguno |
 
 ```
-src/main.tsx        rutas y proveedores
-src/api/client.ts   api(), ApiError, tipos de las respuestas, passesApi
+src/main.tsx        rutas, loaders de sesión y proveedores
+src/api/http.ts     request() y ApiError
+src/api/client.ts   api() con sesión, tipos de las respuestas, passesApi
+src/auth/session.ts la sesión, fuera de React
 src/layout/         AppLayout: barra lateral + contenido
 src/pages/          una página por sección
 src/index.css       tokens y estilos
@@ -118,9 +125,25 @@ src/index.css       tokens y estilos
 
 ## Sesión
 
-**No existe.** No hay login, ni token, ni rutas protegidas, y `api()` no manda
-credenciales. Todo lo que se construya hoy es visible para cualquiera que abra
-la URL. Depende de la autenticación de `StaffUser` en el backend.
+Access token (~15 min) en **memoria**; refresh (~30 días) en cookie
+**`HttpOnly`**. Recargar la página pierde el access a propósito y
+`restoreSession()` lo recupera con la cookie. Detalle en
+`agent/features/modulo_sesion.md`.
+
+Tres cosas que hay que saber antes de tocar `src/api/` o `src/auth/`:
+
+- `credentials: 'include'` va en **todas** las peticiones. Sin eso el navegador
+  descarta la cookie en origen cruzado y la sesión no sobrevive una recarga.
+- `fetch` **no lanza** en 4xx/5xx. Un 500 no entra al `catch` si no se revisa
+  `res.ok`.
+- **La cookie exige que el panel y la API estén en el mismo sitio.** En
+  desarrollo lo resuelve el proxy de Vite; en producción, o el hosting reenvía
+  `/api` al backend, o los dos viven en subdominios del mismo dominio. En dos
+  dominios distintos la sesión se pierde en cada recarga.
+
+**No hay tabla de sesiones**: el backend revalida al usuario en cada petición.
+Desactivar a alguien lo corta en la siguiente. La contracara es que **cerrar
+sesión solo cierra ese navegador**.
 
 ## Variables de entorno
 
@@ -131,7 +154,8 @@ la URL. Depende de la autenticación de `StaffUser` en el backend.
 
 - Es una SPA con rutas del lado del cliente: el hosting tiene que devolver
   `index.html` para cualquier ruta, o recargar en `/caja` da 404.
-- El origen donde quede publicado va en `CORS_ORIGINS` del backend.
+- El origen donde quede publicado va en `CORS_ORIGINS` del backend, salvo que el
+  hosting reenvíe `/api` y el navegador nunca llame directo al backend.
 - **Backend primero, siempre.** Usa `ValidationPipe` con
   `forbidNonWhitelisted: true`: cualquier campo que el DTO no declare se rechaza
   con 400 (`"property X should not exist"`). Un campo nuevo en un body requiere
