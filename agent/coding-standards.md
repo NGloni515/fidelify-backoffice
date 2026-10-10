@@ -16,15 +16,18 @@
 
 ```
 src/
-  main.tsx      rutas y proveedores
-  api/          client.ts: api(), ApiError, tipos de respuesta y un objeto por recurso
+  main.tsx      rutas, loaders de sesión y proveedores
+  api/          http.ts: request() y ApiError
+                client.ts: api(), tipos de respuesta y un objeto por recurso
+  auth/         session.ts: la sesión, fuera de React
   layout/       AppLayout
   pages/        una página por sección
   index.css     tokens y estilos
 ```
 
 - Las rutas se declaran **a mano** en `src/main.tsx`. Una sección nueva es una
-  página en `pages/`, su entrada en el router y su enlace en `AppLayout`.
+  página en `pages/`, su entrada en el router **como hija de la ruta protegida**
+  y su enlace en `AppLayout`.
 - Una página que arrastra una dependencia pesada se registra con `lazy`, como
   `/caja`.
 
@@ -33,15 +36,22 @@ src/
 - Componentes funcionales, sin clases.
 - Un componente que solo usa una página vive en el archivo de esa página
   (`Stamps` en `CashierPage.tsx`). Se extrae cuando lo necesita una segunda.
-- **Estado global: ninguno.** Lo que viene del servidor es de TanStack Query; el
+- **Estado global: solo la sesión**, en un store de módulo de pocas líneas
+  (`src/auth/session.ts`). Lo que viene del servidor es de TanStack Query; el
   estado de una pantalla es `useState`. No se agrega Zustand ni Redux mientras
-  no haya estado que compartan pantallas que no se conocen entre sí.
+  no aparezca más estado que compartan pantallas que no se conocen entre sí.
 
 ## Datos y HTTP
 
 - Toda petición pasa por `api()` de `src/api/client.ts`. No se llama `fetch`
-  suelto.
-- `fetch` **no lanza** en 4xx/5xx — por eso `api()` revisa `res.ok` y tira
+  suelto. `api()` agrega el token y, ante un 401, renueva la sesión y repite la
+  petición una vez.
+- La única excepción es `src/auth/session.ts`, que usa `request()` de
+  `src/api/http.ts` directo: no puede depender de `api()` porque `api()` depende
+  de la sesión.
+- `request()` lleva `credentials: 'include'` **siempre**: sin eso el navegador
+  descarta la cookie de sesión en peticiones de origen cruzado.
+- `fetch` **no lanza** en 4xx/5xx — por eso `request()` revisa `res.ok` y tira
   `ApiError` con el `status`. Nunca asumir que un `await fetch` que no explotó
   salió bien.
 - Los tipos de cada respuesta viven junto al cliente, en `src/api/client.ts`, y

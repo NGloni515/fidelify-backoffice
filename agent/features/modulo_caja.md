@@ -22,7 +22,8 @@ describe solo el lado del panel.
 ## Quién la usa
 
 Quien atiende, desde un celular o una tablet del local, con el cliente enfrente
-mostrando su tarjeta en el celular.
+mostrando su tarjeta en el celular. Con sesión iniciada: solo encuentra tarjetas
+de su negocio, y cada sello queda a su nombre.
 
 ---
 
@@ -79,6 +80,11 @@ la mutación se usa solo para elegir el aviso.
   haber dado dos veces.
 - **Se muestra el mensaje del backend**, sea de la consulta o de cualquiera de
   las dos operaciones.
+- **Una tarjeta de otro negocio se ve igual que una que no existe**: "Tarjeta no
+  encontrada".
+- **Si el token vence a mitad del turno, el sello se da igual.** `api()` renueva
+  la sesión y repite la petición sin que quien atiende lo note (ver
+  `modulo_sesion.md`).
 
 ---
 
@@ -97,8 +103,6 @@ la mutación se usa solo para elegir el aviso.
 
 ## Sin resolver
 
-- **No hay inicio de sesión.** Cualquiera con la URL del panel puede dar sellos,
-  y no queda registrado quién lo hizo.
 - **No hay deshacer.** Un sello dado por error no se puede quitar desde el
   panel.
 - **El aviso de éxito no se limpia si la operación siguiente falla.** Pueden

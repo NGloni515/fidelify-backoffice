@@ -28,7 +28,7 @@ Quien lo usa no es técnico y no está sentado frente a un escritorio:
 |---|---|---|
 | `fidelify-backend` | todos | — |
 | `fidelify-web` | el cliente final, anónimo | ninguna: el `slug` del negocio en la URL |
-| **`fidelify-backoffice`** (este) | **dueño y cajeras del negocio** | **`StaffUser`** — todavía sin login |
+| **`fidelify-backoffice`** (este) | **dueño y cajeras del negocio** | **`StaffUser`** |
 
 No existe un panel interno de Fidelify. Dar de alta un negocio se hace desde el
 backend, por seed.
@@ -44,9 +44,22 @@ Dos, definidos en el backend (`StaffRole`):
 | `OWNER` | el dueño |
 | `CASHIER` | quien atiende la caja |
 
-**Hoy no se aplican**: sin login, el panel no sabe quién lo está usando ni de
-qué negocio es. Cuando exista, ocultar una sección a una cajera será cosmética;
-la regla la hace cumplir el backend.
+El rol llega con la sesión (`user.role`) y hoy solo decide a dónde se va tras
+entrar: la cajera a `/caja`, el dueño a `/`. **Las secciones todavía no
+distinguen roles.** Cuando lo hagan, ocultar una sección a una cajera será
+cosmética; la regla la hace cumplir el backend.
+
+---
+
+## Sesión
+
+- **Access token (~15 min)** en **memoria**. Nunca toca `localStorage`.
+- **Refresh (~30 días)** en cookie **`HttpOnly`**, invisible a JavaScript.
+
+El panel solo ve datos del negocio de quien inició sesión: ese negocio lo decide
+el backend a partir de la sesión, nunca un campo que mande el panel.
+
+Detalle en [`modulo_sesion`](features/modulo_sesion.md).
 
 ---
 
@@ -54,6 +67,7 @@ la regla la hace cumplir el backend.
 
 | Ruta | Sección | Estado | Qué va ahí |
 |---|---|---|---|
+| `/login` | — | **funcional** | Formulario de acceso. Pública |
 | `/` | Inicio | marcador | Clientes inscritos, sellos dados hoy, premios canjeados y clientes que dejaron de venir |
 | `/caja` | Caja | **funcional** | Escanear la tarjeta, dar sello, canjear premio |
 | `/clientes` | Clientes | marcador | Lista de clientes, historial de visitas y ajuste manual de sellos |
@@ -62,8 +76,10 @@ la regla la hace cumplir el backend.
 | `/mensajes` | Mensajes | marcador | Enviar una notificación al celular de todos los clientes o de un grupo |
 | `/equipo` | Equipo | marcador | Dueño y cajeros con sus permisos |
 
-Todas cuelgan de `AppLayout` (barra lateral + contenido). Los marcadores usan
-el componente `Placeholder`, que dice qué va a haber en la sección.
+Todas menos `/login` cuelgan de `AppLayout` (barra lateral + contenido) y
+**exigen sesión**: el `loader` de la ruta padre manda a `/login` a quien no la
+tenga. Los marcadores usan el componente `Placeholder`, que dice qué va a haber
+en la sección.
 
 `/caja` se carga con `lazy`: el lector de QR pesa más que el resto del panel
 junto y solo se usa ahí.
@@ -78,7 +94,8 @@ junto y solo se usa ahí.
 | UI | React 19, CSS propio con variables en `src/index.css`. Sin librería de componentes |
 | Rutas | React Router 8 (`createBrowserRouter`), declaradas en código, no por archivos |
 | Datos | TanStack Query 5 |
-| HTTP | **`fetch` nativo** + envoltorio en `src/api/client.ts`. Sin axios |
+| HTTP | **`fetch` nativo** + envoltorio en `src/api/http.ts` y `src/api/client.ts`. Sin axios |
+| Sesión | store de módulo en `src/auth/session.ts`, leído con `useSyncExternalStore` |
 | Escáner | `html5-qrcode` |
 | Lint | oxlint |
 
@@ -89,8 +106,9 @@ panel llama a `VITE_API_URL`.
 
 ## Documentación relacionada
 
+- Sesión: [`modulo_sesion`](features/modulo_sesion.md)
 - Caja: [`modulo_caja`](features/modulo_caja.md)
-- Backend de la caja: `fidelify-backend/agent/features/modulo_sellos.md`
-  (reglas de sellos y contrato de los endpoints)
+- Backend: `fidelify-backend/agent/features/modulo_auth.md` (tokens y contrato
+  de la sesión) y `modulo_sellos.md` (reglas de sellos y contrato de la caja)
 - Modelo de datos y vocabulario: `fidelify-backend/agent/project-overview.md`
 - Design system: `design-system.md` de este repo + `../design-system.md` (general)

@@ -31,6 +31,10 @@ agregado" sobre una petición que falló **compila perfectamente**.
 Con el backend en `localhost:3000` (base arriba y seed cargado) y el panel en
 `localhost:5173`:
 
+- Abrir `/caja` sin sesión: tiene que mandar a `/login`.
+- Entrar con la cajera del seed (`../fidelify-backend/.env.example`), y
+  **recargar la página**: la sesión tiene que sobrevivir sola.
+- Cerrar sesión, y abrir `/caja` de nuevo: tiene que expulsar.
 - Buscar una tarjeta por su código, escrito en minúsculas: tiene que
   encontrarla igual.
 - Dar un sello: el círculo nuevo aparece **después** de la respuesta, no antes.

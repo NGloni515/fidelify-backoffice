@@ -60,6 +60,9 @@ Los valores están en [`../design-system.md`](../design-system.md) §2.1.
 |---|---|
 | `shell`, `sidebar`, `content` | estructura: barra lateral de 220px + contenido de hasta 760px |
 | `brand`, `brand-mark` | nombre de Fidelify en la barra |
+| `account` | pie de la barra: negocio, usuario y "Cerrar sesión" |
+| `login`, `login-card` | pantalla de acceso: una tarjeta centrada |
+| `loading` | "Cargando…" mientras se restaura la sesión |
 | `nav-link` (+ `active`) | enlace de sección. `active` lo pone `NavLink` |
 | `card` (+ `empty`) | contenedor. `empty` es el marcador "Próximamente" |
 | `row` | fila de controles que se parte en varias líneas si no caben |
@@ -67,8 +70,9 @@ Los valores están en [`../design-system.md`](../design-system.md) §2.1.
 | `muted` | párrafo secundario |
 | `stamps`, `stamp` (+ `filled`) | los círculos de la tarjeta |
 
-`button` y `input` están estilizados por etiqueta: un `<button>` es primario sin
-clase, y `className="secondary"` lo hace secundario.
+`button`, `input` y `label` están estilizados por etiqueta: un `<button>` es
+primario sin clase, y `className="secondary"` lo hace secundario. Un `<label>`
+que envuelve su `<input>` queda con el texto arriba del campo.
 
 ---
 
@@ -93,7 +97,8 @@ se deja una ruta en blanco.
 ## 5. Pantallas chicas
 
 La caja se usa en un celular o una tablet. Bajo **720px** la barra lateral pasa
-arriba y sus enlaces se deslizan en horizontal.
+arriba, sus enlaces se deslizan en horizontal y la cuenta queda en una fila
+debajo.
 
 Toda pantalla nueva se mira a ancho de celular antes de darla por terminada.
 

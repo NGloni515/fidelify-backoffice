@@ -1,15 +1,33 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { createBrowserRouter, redirect, RouterProvider } from 'react-router'
+import { restoreSession } from './auth/session'
 import './index.css'
 import { AppLayout } from './layout/AppLayout'
+import { LoginPage } from './pages/LoginPage'
 import { Placeholder } from './pages/Placeholder'
 
+async function requireSession() {
+  if (!(await restoreSession())) throw redirect('/login')
+  return null
+}
+
+async function redirectIfSignedIn() {
+  const user = await restoreSession()
+  if (user) throw redirect(user.role === 'CASHIER' ? '/caja' : '/')
+  return null
+}
+
+const loading = <p className="loading">Cargando…</p>
+
 const router = createBrowserRouter([
+  { path: '/login', loader: redirectIfSignedIn, element: <LoginPage />, hydrateFallbackElement: loading },
   {
     path: '/',
+    loader: requireSession,
     element: <AppLayout />,
+    hydrateFallbackElement: loading,
     children: [
       {
         index: true,
@@ -22,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'caja',
-        // Carga diferida: el lector de QR pesa bastante y solo se usa en caja.
+        // Lazy: the QR reader outweighs the rest of the panel and only this page uses it.
         lazy: async () => ({ Component: (await import('./pages/CashierPage')).CashierPage }),
       },
       {
