@@ -15,6 +15,8 @@
 ## Estructura de carpetas
 
 ```
+functions/
+  api/          [[path]].ts: proxy de /api al backend (Cloudflare Pages)
 src/
   main.tsx      rutas, loaders de sesión y proveedores
   api/          http.ts: request() y ApiError
