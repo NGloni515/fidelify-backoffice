@@ -95,8 +95,7 @@ pueden quedar para quien use la tablet después.
   navegador no manda la cookie cuando el panel y la API están en orígenes
   distintos, y la sesión no sobrevive una recarga.
 - **En producción el panel le habla a la API por su propio origen.**
-  `functions/api/[[path]].ts` reenvía `/api/*` al backend desde Cloudflare
-  Pages. La cookie es `SameSite=Lax` y no viaja entre sitios distintos: sin ese
+  `worker/index.ts` reenvía `/api/*` al backend desde Cloudflare Workers. La cookie es `SameSite=Lax` y no viaja entre sitios distintos: sin ese
   proxy, entrar funciona y recargar la página saca al usuario.
 - **El token no se guarda en el navegador.** Ni `localStorage` ni
   `sessionStorage`: un script inyectado se lo llevaría.

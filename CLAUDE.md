@@ -114,7 +114,8 @@ Dos cosas que confunden:
 | Estado global | ninguno |
 
 ```
-functions/api/      proxy de /api al backend; solo corre en Cloudflare Pages
+worker/index.ts     proxy de /api al backend; solo corre en Cloudflare
+wrangler.jsonc      despliegue en Cloudflare Workers
 src/main.tsx        rutas, loaders de sesión y proveedores
 src/api/http.ts     request() y ApiError
 src/api/client.ts   api() con sesión, tipos de las respuestas, passesApi
@@ -138,8 +139,8 @@ Tres cosas que hay que saber antes de tocar `src/api/` o `src/auth/`:
 - `fetch` **no lanza** en 4xx/5xx. Un 500 no entra al `catch` si no se revisa
   `res.ok`.
 - **La cookie exige que el panel y la API estén en el mismo sitio.** En
-  desarrollo lo resuelve el proxy de Vite; en producción, la Pages Function de
-  `functions/api/` (ver *Despliegue*). Si el panel llamara directo a un backend
+  desarrollo lo resuelve el proxy de Vite; en producción, el Worker de
+  `worker/index.ts` (ver *Despliegue*). Si el panel llamara directo a un backend
   en otro dominio, la sesión se perdería en cada recarga.
 
 **No hay tabla de sesiones**: el backend revalida al usuario en cada petición.
@@ -153,28 +154,32 @@ sesión solo cierra ese navegador**.
 
 ## Despliegue
 
-Corre en **Cloudflare Pages**: comando de build `npm run build`, carpeta de
-salida `dist`.
+Corre en **Cloudflare Workers**, con assets estáticos, conectado al repo: cada
+push a `main` corre `npm run build` y después `npx wrangler deploy`, que lee
+[`wrangler.jsonc`](wrangler.jsonc). Hoy en
+`https://fidelify-backoffice.angelonisrael.workers.dev`.
 
-- **El panel nunca llama directo al backend.** `functions/api/[[path]].ts` es una
-  Pages Function que reenvía todo `/api/*` al backend, de modo que para el
+- **El panel nunca llama directo al backend.** `worker/index.ts` atiende solo
+  `/api/*` (`run_worker_first`) y lo reenvía al backend, de modo que para el
   navegador el panel y la API son el mismo origen. Es lo que permite que la
-  cookie de sesión (`SameSite=Lax`) viaje aunque el panel esté en `*.pages.dev`
-  y el backend en otro dominio. Por eso tampoco hace falta CORS.
-- La Function lee el destino de **`API_ORIGIN`**, una variable del proyecto en
-  Cloudflare (por ejemplo `https://….up.railway.app`, sin `/api` al final). Sin
-  ella, toda llamada a `/api` responde 500.
+  cookie de sesión (`SameSite=Lax`) viaje aunque el panel esté en
+  `*.workers.dev` y el backend en otro dominio. Por eso tampoco hace falta CORS.
+- Todo lo demás lo sirve Cloudflare desde `dist/`, sin pasar por el Worker, y
+  una ruta que no es un archivo devuelve `index.html`
+  (`not_found_handling: "single-page-application"`): recargar en `/caja`
+  funciona.
+- El destino del proxy es **`API_ORIGIN`**, en `vars` de `wrangler.jsonc` (sin
+  `/api` al final). Está en el repo y no en el panel de Cloudflare porque
+  `wrangler deploy` reemplaza en cada despliegue las variables que no estén en
+  el archivo.
 - **`VITE_API_URL` se deja vacía**: el panel llama a `/api` en su propio origen,
   igual que en desarrollo.
-- Cloudflare Pages devuelve `index.html` para cualquier ruta que no sea un
-  archivo, así que recargar en `/caja` funciona sin configurar nada. **No se
-  agrega un `404.html`**: con ese archivo presente deja de hacerlo.
-- La Function no pasa por `tsc -b` ni por Vite: la compila Cloudflare. Se prueba
-  en local con el runtime real:
+- El Worker no pasa por `tsc -b` ni por Vite: lo compila `wrangler`. Se prueba
+  en local con el runtime real, apuntando al backend local:
 
   ```bash
   npm run build
-  npx wrangler pages dev dist --binding API_ORIGIN=http://localhost:3000 --port 8788
+  npx wrangler dev --port 8788 --var API_ORIGIN:http://localhost:3000
   ```
 
 - **Backend primero, siempre.** Usa `ValidationPipe` con

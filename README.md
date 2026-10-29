@@ -13,7 +13,7 @@ npm run dev    # http://localhost:5173
 
 El backend (`fidelify-backend`) debe estar corriendo en `http://localhost:3000`; Vite reenvía `/api` hacia él.
 Para entrar, usa la dueña o la cajera que crea el seed del backend (correos y contraseña en su `.env.example`).
-En producción corre en Cloudflare Pages (build `npm run build`, salida `dist`) y habla con el backend a través de `functions/api/`; el destino va en la variable `API_ORIGIN` del proyecto. `VITE_API_URL` se deja vacía.
+En producción corre en Cloudflare Workers (`wrangler.jsonc`) y habla con el backend a través del proxy de `worker/index.ts`; el destino es `API_ORIGIN`, en el mismo `wrangler.jsonc`. `VITE_API_URL` se deja vacía.
 
 ## Documentación
 
