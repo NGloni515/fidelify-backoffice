@@ -12,8 +12,8 @@ tarjeta, cupones, mensajes y equipo.
 cliente, no técnicos, y la pantalla de caja se usa desde un celular o una tablet
 sobre el mostrador, con clientes esperando.
 
-Hoy funcionan el **inicio de sesión** y la **caja**. Las demás secciones son
-marcadores.
+Hoy funcionan el **inicio de sesión**, la **caja**, **Equipo** (solo el
+dueño) y **Mi cuenta**. Las demás secciones son marcadores.
 
 ## La lógica de negocio vive en el backend
 
@@ -46,10 +46,11 @@ Este panel lleva la marca de **Fidelify**. La página pública
 - @agent/coding-standards.md
 - @agent/ai-interaction.md
 
-Detalle por módulo: `agent/features/modulo_sesion.md` y
-`agent/features/modulo_caja.md`. El contrato de los endpoints está del lado del
-backend, en `../fidelify-backend/agent/features/modulo_auth.md` y
-`modulo_sellos.md`.
+Detalle por módulo: `agent/features/modulo_sesion.md`,
+`agent/features/modulo_caja.md` y `agent/features/modulo_equipo.md`. El
+contrato de los endpoints está del lado del backend, en
+`../fidelify-backend/agent/features/modulo_auth.md`, `modulo_sellos.md` y
+`modulo_equipo.md`.
 
 ## Comandos
 
@@ -118,7 +119,7 @@ worker/index.ts     proxy de /api al backend; solo corre en Cloudflare
 wrangler.jsonc      despliegue en Cloudflare Workers
 src/main.tsx        rutas, loaders de sesión y proveedores
 src/api/http.ts     request() y ApiError
-src/api/client.ts   api() con sesión, tipos de las respuestas, passesApi
+src/api/client.ts   api() con sesión, tipos de las respuestas, passesApi, staffApi, accountApi
 src/auth/session.ts la sesión, fuera de React
 src/layout/         AppLayout: barra lateral + contenido
 src/pages/          una página por sección

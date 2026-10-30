@@ -39,3 +39,24 @@ export const passesApi = {
   redeem: (serial: string) =>
     api<PassSummary>(`/passes/${encodeURIComponent(serial)}/redeem`, { method: 'POST' }),
 }
+
+export interface TeamMember {
+  id: string
+  name: string
+  email: string
+  role: 'OWNER' | 'CASHIER'
+  active: boolean
+}
+
+export const staffApi = {
+  list: () => api<TeamMember[]>('/staff'),
+  create: (input: { name: string; email: string; password: string }) =>
+    api<TeamMember>('/staff', { method: 'POST', body: JSON.stringify(input) }),
+  update: (id: string, changes: { active?: boolean; password?: string }) =>
+    api<TeamMember>(`/staff/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(changes) }),
+}
+
+export const accountApi = {
+  changePassword: (currentPassword: string, newPassword: string) =>
+    api<void>('/auth/password', { method: 'POST', body: JSON.stringify({ currentPassword, newPassword }) }),
+}

@@ -44,10 +44,11 @@ Dos, definidos en el backend (`StaffRole`):
 | `OWNER` | el dueño |
 | `CASHIER` | quien atiende la caja |
 
-El rol llega con la sesión (`user.role`) y hoy solo decide a dónde se va tras
-entrar: la cajera a `/caja`, el dueño a `/`. **Las secciones todavía no
-distinguen roles.** Cuando lo hagan, ocultar una sección a una cajera será
-cosmética; la regla la hace cumplir el backend.
+El rol llega con la sesión (`user.role`) y decide dos cosas: a dónde se va
+tras entrar (la cajera a `/caja`, el dueño a `/`) y si se ve el enlace de
+**Equipo**, que es solo del dueño. Ocultarlo es cosmética: la regla la hace
+cumplir el backend, que le responde 403 a una cajera. Las demás secciones
+todavía no distinguen roles.
 
 ---
 
@@ -74,7 +75,8 @@ Detalle en [`modulo_sesion`](features/modulo_sesion.md).
 | `/tarjeta` | Mi tarjeta | marcador | Logo, colores, cuántos sellos se necesitan y cuál es el premio. Incluye el QR de inscripción |
 | `/cupones` | Cupones | marcador | Cupones con fecha de vencimiento y límite de usos |
 | `/mensajes` | Mensajes | marcador | Enviar una notificación al celular de todos los clientes o de un grupo |
-| `/equipo` | Equipo | marcador | Dueño y cajeros con sus permisos |
+| `/equipo` | Equipo | **funcional**, solo dueño | El equipo; agregar, desactivar y cambiar la contraseña de las cajeras |
+| `/cuenta` | Mi cuenta | **funcional** | Cambiar la contraseña propia |
 
 Todas menos `/login` cuelgan de `AppLayout` (barra lateral + contenido) y
 **exigen sesión**: el `loader` de la ruta padre manda a `/login` a quien no la
@@ -108,7 +110,9 @@ panel llama a `VITE_API_URL`.
 
 - Sesión: [`modulo_sesion`](features/modulo_sesion.md)
 - Caja: [`modulo_caja`](features/modulo_caja.md)
+- Equipo y Mi cuenta: [`modulo_equipo`](features/modulo_equipo.md)
 - Backend: `fidelify-backend/agent/features/modulo_auth.md` (tokens y contrato
-  de la sesión) y `modulo_sellos.md` (reglas de sellos y contrato de la caja)
+  de la sesión), `modulo_sellos.md` (reglas de sellos y contrato de la caja) y
+  `modulo_equipo.md` (reglas y contrato de Equipo)
 - Modelo de datos y vocabulario: `fidelify-backend/agent/project-overview.md`
 - Design system: `design-system.md` de este repo + `../design-system.md` (general)
