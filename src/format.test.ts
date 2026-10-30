@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { formatCalendarDate, movementLabel, stampsLabel } from './format'
+import { formatCalendarDate, movementLabel, plural, stampsLabel } from './format'
+
+describe('plural', () => {
+  it('picks the word by the count', () => {
+    expect(plural(1, 'visita', 'visitas')).toBe('1 visita')
+    expect(plural(0, 'visita', 'visitas')).toBe('0 visitas')
+    expect(plural(2, 'premio canjeado', 'premios canjeados')).toBe('2 premios canjeados')
+  })
+})
 
 describe('stampsLabel', () => {
   it('uses the singular only for one', () => {

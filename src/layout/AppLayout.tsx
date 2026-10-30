@@ -3,7 +3,7 @@ import { Navigate, NavLink, Outlet } from 'react-router'
 import { logout, useCurrentUser } from '../auth/session'
 
 const links = [
-  { to: '/', label: 'Inicio', end: true },
+  { to: '/', label: 'Inicio', end: true, ownerOnly: true },
   { to: '/caja', label: 'Caja' },
   { to: '/clientes', label: 'Clientes', ownerOnly: true },
   { to: '/tarjeta', label: 'Mi tarjeta' },

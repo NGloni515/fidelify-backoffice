@@ -112,3 +112,17 @@ export const customersApi = {
     api<CustomerList>('/customers/search', { method: 'POST', body: JSON.stringify({ query, page }) }),
   get: (id: string) => api<CustomerDetail>(`/customers/${encodeURIComponent(id)}`),
 }
+
+export interface Dashboard {
+  periodDays: number
+  customers: { total: number; newInPeriod: number; lapsed: number }
+  today: { stamps: number; rewardsRedeemed: number }
+  period: { stamps: number; rewardsRedeemed: number }
+  rewardsPending: number
+  topCustomers: { id: string; name: string; visits: number; lastVisitAt: string }[]
+  lapsedCustomers: { id: string; name: string; joinedAt: string; lastVisitAt: string | null }[]
+}
+
+export const dashboardApi = {
+  get: () => api<Dashboard>('/dashboard'),
+}

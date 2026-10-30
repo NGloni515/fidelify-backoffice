@@ -75,6 +75,7 @@ Los valores están en [`../design-system.md`](../design-system.md) §2.1.
 | `pager` | "Anterior" y "Siguiente" con la página en medio |
 | `back` | enlace para volver, arriba del título |
 | `facts` | pares dato–valor (`dl`); bajo 720px el valor va debajo del dato |
+| `stats`, `stat`, `stat-label`, `stat-value` | fila de tarjetas de número del Inicio: etiqueta, valor en el tamaño del título de página y un `hint` debajo |
 | `tags`, `tag` | etiquetas chicas y neutras: el rol, "Desactivada" |
 | `muted` | párrafo secundario |
 | `stamps`, `stamp` (+ `filled`) | los círculos de la tarjeta |

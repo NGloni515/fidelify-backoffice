@@ -12,8 +12,9 @@ tarjeta, cupones, mensajes y equipo.
 cliente, no técnicos, y la pantalla de caja se usa desde un celular o una tablet
 sobre el mostrador, con clientes esperando.
 
-Hoy funcionan el **inicio de sesión**, la **caja**, **Clientes** y **Equipo**
-(solo el dueño) y **Mi cuenta**. Las demás secciones son marcadores.
+Hoy funcionan el **inicio de sesión**, la **caja**, **Inicio**, **Clientes** y
+**Equipo** (los tres solo del dueño) y **Mi cuenta**. Las demás secciones son
+marcadores.
 
 ## La lógica de negocio vive en el backend
 
@@ -46,11 +47,11 @@ Este panel lleva la marca de **Fidelify**. La página pública
 - @agent/coding-standards.md
 - @agent/ai-interaction.md
 
-Detalle por módulo: `agent/features/modulo_sesion.md`,
-`agent/features/modulo_caja.md`, `agent/features/modulo_clientes.md` y
-`agent/features/modulo_equipo.md`. El contrato de los endpoints está del lado
-del backend, en `../fidelify-backend/agent/features/` (`modulo_auth.md`,
-`modulo_sellos.md`, `modulo_clientes.md` y `modulo_equipo.md`).
+Detalle por módulo, en `agent/features/`: `modulo_sesion.md`,
+`modulo_caja.md`, `modulo_inicio.md`, `modulo_clientes.md` y
+`modulo_equipo.md`. El contrato de los endpoints está del lado del backend, en
+`../fidelify-backend/agent/features/` (`modulo_auth.md`, `modulo_sellos.md`,
+`modulo_inicio.md`, `modulo_clientes.md` y `modulo_equipo.md`).
 
 ## Comandos
 
