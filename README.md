@@ -25,12 +25,13 @@ En producción corre en Cloudflare Workers (`wrangler.jsonc`) y habla con el bac
 | Flujo de trabajo | [`agent/ai-interaction.md`](agent/ai-interaction.md) |
 | Sesión | [`agent/features/modulo_sesion.md`](agent/features/modulo_sesion.md) |
 | Caja | [`agent/features/modulo_caja.md`](agent/features/modulo_caja.md) |
+| Clientes | [`agent/features/modulo_clientes.md`](agent/features/modulo_clientes.md) |
 | Equipo y Mi cuenta | [`agent/features/modulo_equipo.md`](agent/features/modulo_equipo.md) |
 | Estilos | [`design-system.md`](design-system.md) |
 
 El contrato de los endpoints está del lado del backend, en
-`../fidelify-backend/agent/features/modulo_auth.md`, `modulo_sellos.md` y
-`modulo_equipo.md`.
+`../fidelify-backend/agent/features/` (`modulo_auth.md`, `modulo_sellos.md`,
+`modulo_clientes.md` y `modulo_equipo.md`).
 
 ## Estado
 
@@ -38,6 +39,7 @@ El contrato de los endpoints está del lado del backend, en
 | --- | --- |
 | Inicio de sesión (dueño y cajeros) | Funcional contra la API |
 | Caja (escanear, dar sello, canjear premio) | Funcional contra la API |
+| Clientes (lista, búsqueda, ficha con historial y ajuste de sellos; solo el dueño) | Funcional contra la API |
 | Equipo (agregar, desactivar y cambiar la contraseña de las cajeras; solo el dueño) | Funcional contra la API |
 | Mi cuenta (cambiar la contraseña propia) | Funcional contra la API |
-| Inicio, Clientes, Mi tarjeta, Cupones, Mensajes | Estructura lista, por construir |
+| Inicio, Mi tarjeta, Cupones, Mensajes | Estructura lista, por construir |

@@ -5,7 +5,10 @@ import { createBrowserRouter, redirect, RouterProvider } from 'react-router'
 import { restoreSession } from './auth/session'
 import './index.css'
 import { AppLayout } from './layout/AppLayout'
+import { OwnerOnly } from './components/OwnerOnly'
 import { AccountPage } from './pages/AccountPage'
+import { CustomerPage } from './pages/CustomerPage'
+import { CustomersPage } from './pages/CustomersPage'
 import { LoginPage } from './pages/LoginPage'
 import { Placeholder } from './pages/Placeholder'
 import { TeamPage } from './pages/TeamPage'
@@ -48,7 +51,17 @@ const router = createBrowserRouter([
       {
         path: 'clientes',
         element: (
-          <Placeholder title="Clientes" description="Lista de clientes, historial de visitas y ajuste manual de sellos." />
+          <OwnerOnly title="Clientes">
+            <CustomersPage />
+          </OwnerOnly>
+        ),
+      },
+      {
+        path: 'clientes/:id',
+        element: (
+          <OwnerOnly title="Clientes">
+            <CustomerPage />
+          </OwnerOnly>
         ),
       },
       {
@@ -70,7 +83,14 @@ const router = createBrowserRouter([
           <Placeholder title="Mensajes" description="Enviar una notificación al celular de todos los clientes o de un grupo." />
         ),
       },
-      { path: 'equipo', element: <TeamPage /> },
+      {
+        path: 'equipo',
+        element: (
+          <OwnerOnly title="Equipo">
+            <TeamPage />
+          </OwnerOnly>
+        ),
+      },
       { path: 'cuenta', element: <AccountPage /> },
     ],
   },

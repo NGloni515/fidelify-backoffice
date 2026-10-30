@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import { useEffect, useEffectEvent, useState, type FormEvent } from 'react'
 import { passesApi } from '../api/client'
+import { Stamps } from '../components/Stamps'
 
-/** Pantalla de caja: escanear la tarjeta del cliente y dar sellos o premios. */
 export function CashierPage() {
   const [serial, setSerial] = useState<string | null>(null)
   const [manual, setManual] = useState('')
@@ -123,15 +123,5 @@ export function CashierPage() {
         </div>
       )}
     </section>
-  )
-}
-
-function Stamps({ filled, total }: { filled: number; total: number }) {
-  return (
-    <div className="stamps" aria-label={`${filled} de ${total} sellos`}>
-      {Array.from({ length: total }, (_, i) => (
-        <span key={i} className={i < filled ? 'stamp filled' : 'stamp'} />
-      ))}
-    </div>
   )
 }

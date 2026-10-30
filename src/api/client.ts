@@ -38,6 +38,11 @@ export const passesApi = {
     }),
   redeem: (serial: string) =>
     api<PassSummary>(`/passes/${encodeURIComponent(serial)}/redeem`, { method: 'POST' }),
+  adjust: (serial: string, stamps: number, note: string) =>
+    api<PassSummary>(`/passes/${encodeURIComponent(serial)}/adjust`, {
+      method: 'POST',
+      body: JSON.stringify({ stamps, note }),
+    }),
 }
 
 export interface TeamMember {
@@ -59,4 +64,51 @@ export const staffApi = {
 export const accountApi = {
   changePassword: (currentPassword: string, newPassword: string) =>
     api<void>('/auth/password', { method: 'POST', body: JSON.stringify({ currentPassword, newPassword }) }),
+}
+
+export interface CustomerSummary {
+  id: string
+  name: string
+  phone: string
+  lastVisitAt: string | null
+  passes: { serialNumber: string; balance: number; rewardsReady: number; stampsRequired: number }[]
+}
+
+export interface CustomerList {
+  total: number
+  page: number
+  pageSize: number
+  customers: CustomerSummary[]
+}
+
+export interface Movement {
+  type: 'STAMP' | 'REDEEM' | 'ADJUST'
+  amount: number
+  note: string | null
+  at: string
+  staffName: string | null
+}
+
+export interface CustomerDetail {
+  id: string
+  name: string
+  phone: string
+  email: string | null
+  birthDate: string | null
+  joinedAt: string
+  consentAt: string
+  passes: {
+    serialNumber: string
+    balance: number
+    rewardsReady: number
+    program: { name: string; stampsRequired: number; rewardText: string }
+    movements: Movement[]
+  }[]
+}
+
+export const customersApi = {
+  // A POST so a phone number typed in the search never travels in the URL.
+  search: (query: string, page: number) =>
+    api<CustomerList>('/customers/search', { method: 'POST', body: JSON.stringify({ query, page }) }),
+  get: (id: string) => api<CustomerDetail>(`/customers/${encodeURIComponent(id)}`),
 }

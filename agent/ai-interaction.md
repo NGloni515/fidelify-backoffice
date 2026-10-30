@@ -12,7 +12,7 @@
 
 1. **Rama** desde `origin/main`: `feat/<algo>` o `fix/<algo>`.
 2. **Implementar**.
-3. **Verificar**: `npm run build`, `npm run lint`.
+3. **Verificar**: `npm run build`, `npm run lint`, `npm test`.
 4. **Probar en el navegador de verdad.** No basta con que compile — ver abajo.
 5. **Commit** solo cuando todo lo anterior pasa, y solo con permiso.
 6. **PR** con las secciones **¿Qué?** y **¿Por qué?**.

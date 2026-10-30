@@ -13,7 +13,8 @@ describe solo el lado del panel.
 
 | Archivo | Qué |
 |---|---|
-| `src/pages/CashierPage.tsx` | La pantalla, y el componente `Stamps` |
+| `src/pages/CashierPage.tsx` | La pantalla |
+| `src/components/Stamps.tsx` | Los círculos de la tarjeta, compartidos con la ficha del cliente |
 | `src/api/client.ts` | `passesApi` (`get`, `stamp`, `redeem`) y los tipos `PassDetail` y `PassSummary` |
 | `src/main.tsx` | Registra `/caja` con `lazy` |
 

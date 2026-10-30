@@ -5,7 +5,7 @@ import { logout, useCurrentUser } from '../auth/session'
 const links = [
   { to: '/', label: 'Inicio', end: true },
   { to: '/caja', label: 'Caja' },
-  { to: '/clientes', label: 'Clientes' },
+  { to: '/clientes', label: 'Clientes', ownerOnly: true },
   { to: '/tarjeta', label: 'Mi tarjeta' },
   { to: '/cupones', label: 'Cupones' },
   { to: '/mensajes', label: 'Mensajes' },

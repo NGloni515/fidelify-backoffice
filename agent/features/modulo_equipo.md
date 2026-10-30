@@ -20,14 +20,16 @@ Este documento describe solo el lado del panel.
 | `src/pages/AccountPage.tsx` | Mi cuenta |
 | `src/api/client.ts` | `staffApi` (`list`, `create`, `update`), `accountApi` (`changePassword`) y el tipo `TeamMember` |
 | `src/layout/AppLayout.tsx` | Oculta el enlace de Equipo a las cajeras (`ownerOnly`) |
+| `src/components/OwnerOnly.tsx` | Envuelve la ruta en `main.tsx`: a una cajera le dice que la sección es del dueño |
 
 ---
 
 ## Equipo
 
-- **El enlace solo lo ve el dueño.** Si una cajera abre `/equipo` a mano, la
-  página le dice que es del dueño y ni siquiera pide la lista. Las dos cosas
-  son cosmética: el backend responde 403 a una cajera en todas estas rutas.
+- **El enlace solo lo ve el dueño.** Si una cajera abre `/equipo` a mano,
+  `OwnerOnly` le dice que es del dueño y la página ni siquiera se monta. Las
+  dos cosas son cosmética: el backend responde 403 a una cajera en todas estas
+  rutas.
 - **Solo se agregan cajeras.** El formulario no tiene campo de rol; el backend
   fija `CASHIER`.
 - **La contraseña la pone el dueño**, en un campo de texto visible: la va a
@@ -68,4 +70,4 @@ la persona escribió; lo que pase igual lo frena el backend con su mensaje.
   dueño desde Equipo, y la del dueño, soporte.
 - **Corregir el nombre o el correo** de alguien del equipo.
 - **Las demás secciones no distinguen roles**: una cajera sigue viendo Inicio,
-  Clientes, Mi tarjeta, Cupones y Mensajes.
+  Mi tarjeta, Cupones y Mensajes.
