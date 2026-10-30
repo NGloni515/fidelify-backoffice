@@ -67,6 +67,10 @@ Los valores están en [`../design-system.md`](../design-system.md) §2.1.
 | `card` (+ `empty`) | contenedor. `empty` es el marcador "Próximamente" |
 | `row` | fila de controles que se parte en varias líneas si no caben |
 | `alert ok`, `alert error` | aviso de resultado |
+| `form-stack` | formulario en columna: un campo debajo del otro, con su aviso y su botón |
+| `hint` | ayuda debajo de un campo, dentro de su `label` |
+| `team`, `member` (+ `inactive`), `member-info` | la lista de Equipo; `inactive` atenúa a quien está desactivado |
+| `tags`, `tag` | etiquetas chicas y neutras: el rol, "Desactivada" |
 | `muted` | párrafo secundario |
 | `stamps`, `stamp` (+ `filled`) | los círculos de la tarjeta |
 
@@ -88,6 +92,10 @@ dicen nada a un lector de pantalla.
 
 **Avisos.** El resultado de una operación va en un `alert`, arriba de la tarjeta
 del cliente. El texto del error es el del backend.
+
+**Formularios.** Van en una `card form-stack`, con un `label` que envuelve a
+cada campo. La ayuda va en un `hint` dentro del mismo `label`. En Equipo el
+primario es "Agregar cajera"; las acciones de cada fila son `secondary`.
 
 **Secciones sin construir.** Usan `Placeholder`, que explica qué va a haber. No
 se deja una ruta en blanco.

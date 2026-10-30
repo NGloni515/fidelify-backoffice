@@ -40,6 +40,9 @@ h2 { font-size: 1.2rem; margin: 0 0 4px; }
 .login-card .alert { margin-top: 0; }
 label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 0.95rem; }
 label input { font-weight: 400; }
+.form-stack { display: flex; flex-direction: column; gap: 14px; }
+.form-stack > .alert, .form-stack > .row { margin-top: 0; }
+.hint { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
 
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-top: 16px; }
 .card.empty { color: var(--muted); text-align: center; padding: 40px; }
@@ -59,6 +62,16 @@ input {
 .alert { margin-top: 16px; padding: 12px 14px; border-radius: 10px; }
 .alert.ok { background: var(--ok-soft); color: var(--ok); }
 .alert.error { background: var(--error-soft); color: var(--error); }
+
+.team { list-style: none; margin: 12px 0 0; padding: 0; }
+.member { padding: 14px 0; border-top: 1px solid var(--border); }
+.member:first-child { border-top: 0; padding-top: 0; }
+.member .form-stack { margin-top: 12px; }
+.member-info { display: flex; flex-direction: column; gap: 2px; }
+.member-info .muted { margin: 0; }
+.member.inactive .member-info { opacity: 0.6; }
+.tags { display: flex; gap: 6px; margin-top: 4px; }
+.tag { font-size: 0.8rem; padding: 2px 8px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
 
 .stamps { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
 .stamp { width: 30px; height: 30px; border-radius: 50%; border: 2px dashed var(--border); }

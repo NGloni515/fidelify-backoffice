@@ -102,14 +102,25 @@ pueden quedar para quien use la tablet después.
 - **`session.ts` no importa `api()`**, usa `request()`. Al revés sí: `api()`
   importa la sesión. Invertirlo crea un ciclo entre los dos módulos.
 - **Ocultar algo según el rol es cosmética.** La regla la hace cumplir el
-  backend.
+  backend. Hoy el único enlace que se oculta es Equipo, a las cajeras.
+
+---
+
+## Contraseña
+
+Cada uno cambia la suya en **Mi cuenta** (`/cuenta`), y el dueño le pone una
+nueva a una cajera desde **Equipo**. Detalle en
+[`modulo_equipo`](modulo_equipo.md).
+
+Tras 5 intentos fallidos con un correo, el backend lo bloquea 15 minutos y el
+login muestra su mensaje ("Demasiados intentos. Vuelve a intentar en 15
+minutos."). La tablet de la caja no lo nota: su sesión dura 30 días y no vuelve
+a pedir la contraseña.
 
 ---
 
 ## Sin resolver
 
-- **Las secciones no distinguen roles.** Una cajera ve los mismos enlaces que el
-  dueño.
-- **No hay "olvidé mi contraseña"** ni cambio de contraseña.
+- **No hay "olvidé mi contraseña"** en el login.
 - **Tras entrar siempre se va al inicio de su rol**, no a la página que se
   intentó abrir antes del login.

@@ -5,8 +5,10 @@ import { createBrowserRouter, redirect, RouterProvider } from 'react-router'
 import { restoreSession } from './auth/session'
 import './index.css'
 import { AppLayout } from './layout/AppLayout'
+import { AccountPage } from './pages/AccountPage'
 import { LoginPage } from './pages/LoginPage'
 import { Placeholder } from './pages/Placeholder'
+import { TeamPage } from './pages/TeamPage'
 
 async function requireSession() {
   if (!(await restoreSession())) throw redirect('/login')
@@ -68,10 +70,8 @@ const router = createBrowserRouter([
           <Placeholder title="Mensajes" description="Enviar una notificación al celular de todos los clientes o de un grupo." />
         ),
       },
-      {
-        path: 'equipo',
-        element: <Placeholder title="Equipo" description="Dueño y cajeros con sus permisos." />,
-      },
+      { path: 'equipo', element: <TeamPage /> },
+      { path: 'cuenta', element: <AccountPage /> },
     ],
   },
 ])
