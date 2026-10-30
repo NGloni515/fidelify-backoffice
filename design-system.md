@@ -69,12 +69,17 @@ Los valores están en [`../design-system.md`](../design-system.md) §2.1.
 | `alert ok`, `alert error` | aviso de resultado |
 | `form-stack` | formulario en columna: un campo debajo del otro, con su aviso y su botón |
 | `hint` | ayuda debajo de un campo, dentro de su `label` |
-| `team`, `member` (+ `inactive`), `member-info` | la lista de Equipo; `inactive` atenúa a quien está desactivado |
+| `list`, `list-item` (+ `inactive`), `item-info` | una lista con separadores (Equipo, Clientes, historial); `inactive` atenúa una fila |
+| `item-link`, `item-aside` | fila que entera es un enlace, con un dato a la derecha que baja si no cabe |
+| `search` | campo de búsqueda con su botón al lado |
+| `pager` | "Anterior" y "Siguiente" con la página en medio |
+| `back` | enlace para volver, arriba del título |
+| `facts` | pares dato–valor (`dl`); bajo 720px el valor va debajo del dato |
 | `tags`, `tag` | etiquetas chicas y neutras: el rol, "Desactivada" |
 | `muted` | párrafo secundario |
 | `stamps`, `stamp` (+ `filled`) | los círculos de la tarjeta |
 
-`button`, `input` y `label` están estilizados por etiqueta: un `<button>` es
+`button`, `input`, `select` y `label` están estilizados por etiqueta: un `<button>` es
 primario sin clase, y `className="secondary"` lo hace secundario. Un `<label>`
 que envuelve su `<input>` queda con el texto arriba del campo.
 
@@ -86,7 +91,8 @@ que envuelve su `<input>` queda con el texto arriba del campo.
 lugar es de "+ Dar sello"; "Canjear premio", "Buscar" y "Cancelar" son
 `secondary`.
 
-**Sellos.** `Stamps` pinta un círculo por cada sello del programa. Lleva
+**Sellos.** `Stamps` (`src/components/Stamps.tsx`) pinta un círculo por cada
+sello del programa, en la caja y en la ficha del cliente. Lleva
 `aria-label` con el conteo en texto ("3 de 8 sellos"): los círculos solos no le
 dicen nada a un lector de pantalla.
 

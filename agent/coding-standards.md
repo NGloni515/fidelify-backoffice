@@ -24,6 +24,8 @@ src/
   auth/         session.ts: la sesión, fuera de React
   layout/       AppLayout
   pages/        una página por sección
+  components/   lo que usan dos páginas o más (Stamps, OwnerOnly)
+  format.ts     fechas en es-EC y textos derivados de datos, con su test
   index.css     tokens y estilos
 ```
 
@@ -37,7 +39,8 @@ src/
 
 - Componentes funcionales, sin clases.
 - Un componente que solo usa una página vive en el archivo de esa página
-  (`Stamps` en `CashierPage.tsx`). Se extrae cuando lo necesita una segunda.
+  (`CustomerRow` en `CustomersPage.tsx`). Se extrae a `components/` cuando lo
+  necesita una segunda, como `Stamps`.
 - **Estado global: solo la sesión**, en un store de módulo de pocas líneas
   (`src/auth/session.ts`). Lo que viene del servidor es de TanStack Query; el
   estado de una pantalla es `useState`. No se agrega Zustand ni Redux mientras
@@ -107,18 +110,19 @@ src/
 
 ## Tests
 
-No hay runner instalado. La lógica que más merece tests —las reglas de sellos—
-vive en el backend y se prueba allá.
+**Vitest**, solo para lógica pura: `npm test`. La lógica que más merece tests
+—las reglas de sellos— vive en el backend y se prueba allá.
 
-El primero que agregue lógica pura al panel —un helper, un normalizador de
-respuesta— instala Vitest y pone el `*.test.ts` junto al código que prueba. Los
-valores esperados se calculan a mano, nunca se pegan de una corrida.
+Un helper o un normalizador de respuesta lleva su `*.test.ts` al lado
+(`src/format.test.ts`). Los valores esperados se calculan a mano, nunca se pegan
+de una corrida. Las pantallas no tienen tests: se prueban en el navegador.
 
 ## Verificación
 
 ```bash
 npm run build
 npm run lint
+npm test
 ```
 
 ## Comentarios

@@ -7,9 +7,8 @@ const ROLE_LABEL = { OWNER: 'Dueño', CASHIER: 'Cajera' } as const
 
 export function TeamPage() {
   const queryClient = useQueryClient()
-  const isOwner = useCurrentUser()?.role === 'OWNER'
   const [notice, setNotice] = useState<string | null>(null)
-  const team = useQuery({ queryKey: ['staff'], queryFn: staffApi.list, enabled: isOwner })
+  const team = useQuery({ queryKey: ['staff'], queryFn: staffApi.list })
 
   const create = useMutation({
     mutationFn: staffApi.create,
@@ -34,14 +33,6 @@ export function TeamPage() {
     )
   }
 
-  if (!isOwner)
-    return (
-      <section>
-        <h1>Equipo</h1>
-        <p className="muted">Solo el dueño del negocio administra el equipo.</p>
-      </section>
-    )
-
   return (
     <section>
       <h1>Equipo</h1>
@@ -54,7 +45,7 @@ export function TeamPage() {
         {team.isPending && <p className="muted">Cargando…</p>}
         {team.error && <div className="alert error">{team.error.message}</div>}
         {team.data && (
-          <ul className="team">
+          <ul className="list">
             {team.data.map((member) => (
               <MemberRow key={member.id} member={member} onNotice={setNotice} />
             ))}
@@ -121,8 +112,8 @@ function MemberRow({ member, onNotice }: { member: TeamMember; onNotice: (notice
   }
 
   return (
-    <li className={member.active ? 'member' : 'member inactive'}>
-      <div className="member-info">
+    <li className={member.active ? 'list-item' : 'list-item inactive'}>
+      <div className="item-info">
         <strong>
           {member.name}
           {member.id === currentUser?.id && ' (tú)'}

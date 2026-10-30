@@ -12,8 +12,8 @@ tarjeta, cupones, mensajes y equipo.
 cliente, no técnicos, y la pantalla de caja se usa desde un celular o una tablet
 sobre el mostrador, con clientes esperando.
 
-Hoy funcionan el **inicio de sesión**, la **caja**, **Equipo** (solo el
-dueño) y **Mi cuenta**. Las demás secciones son marcadores.
+Hoy funcionan el **inicio de sesión**, la **caja**, **Clientes** y **Equipo**
+(solo el dueño) y **Mi cuenta**. Las demás secciones son marcadores.
 
 ## La lógica de negocio vive en el backend
 
@@ -47,10 +47,10 @@ Este panel lleva la marca de **Fidelify**. La página pública
 - @agent/ai-interaction.md
 
 Detalle por módulo: `agent/features/modulo_sesion.md`,
-`agent/features/modulo_caja.md` y `agent/features/modulo_equipo.md`. El
-contrato de los endpoints está del lado del backend, en
-`../fidelify-backend/agent/features/modulo_auth.md`, `modulo_sellos.md` y
-`modulo_equipo.md`.
+`agent/features/modulo_caja.md`, `agent/features/modulo_clientes.md` y
+`agent/features/modulo_equipo.md`. El contrato de los endpoints está del lado
+del backend, en `../fidelify-backend/agent/features/` (`modulo_auth.md`,
+`modulo_sellos.md`, `modulo_clientes.md` y `modulo_equipo.md`).
 
 ## Comandos
 
@@ -59,15 +59,15 @@ npm run dev        # servidor de desarrollo (puerto 5173)
 npm run build      # tsc -b && vite build
 npm run preview    # sirve el build
 npm run lint       # oxlint
+npm test           # Vitest, solo lógica pura
 ```
-
-No hay tests ni runner de tests instalado.
 
 ## Verificación
 
 ```bash
 npm run build
 npm run lint
+npm test
 ```
 
 ## Probar de verdad
@@ -119,10 +119,12 @@ worker/index.ts     proxy de /api al backend; solo corre en Cloudflare
 wrangler.jsonc      despliegue en Cloudflare Workers
 src/main.tsx        rutas, loaders de sesión y proveedores
 src/api/http.ts     request() y ApiError
-src/api/client.ts   api() con sesión, tipos de las respuestas, passesApi, staffApi, accountApi
+src/api/client.ts   api() con sesión, tipos de las respuestas y un objeto por recurso
 src/auth/session.ts la sesión, fuera de React
 src/layout/         AppLayout: barra lateral + contenido
 src/pages/          una página por sección
+src/components/     lo que comparten dos páginas o más
+src/format.ts       fechas en es-EC y textos derivados de datos
 src/index.css       tokens y estilos
 ```
 

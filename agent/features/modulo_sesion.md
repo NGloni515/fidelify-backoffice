@@ -102,7 +102,8 @@ pueden quedar para quien use la tablet después.
 - **`session.ts` no importa `api()`**, usa `request()`. Al revés sí: `api()`
   importa la sesión. Invertirlo crea un ciclo entre los dos módulos.
 - **Ocultar algo según el rol es cosmética.** La regla la hace cumplir el
-  backend. Hoy el único enlace que se oculta es Equipo, a las cajeras.
+  backend. Hoy se les ocultan a las cajeras Clientes y Equipo, y `OwnerOnly`
+  les cubre esas rutas si las abren a mano.
 
 ---
 
