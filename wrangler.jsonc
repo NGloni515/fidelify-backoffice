@@ -11,5 +11,12 @@
   },
   "vars": {
     "API_ORIGIN": "https://fidelify-backend-production.up.railway.app"
+  },
+  // Previews (non-production branches) do not inherit "vars". With no staging
+  // backend they talk to production: real accounts, real data.
+  "previews": {
+    "vars": {
+      "API_ORIGIN": "https://fidelify-backend-production.up.railway.app"
+    }
   }
 }
