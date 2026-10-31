@@ -111,6 +111,7 @@ export const customersApi = {
   search: (query: string, page: number) =>
     api<CustomerList>('/customers/search', { method: 'POST', body: JSON.stringify({ query, page }) }),
   get: (id: string) => api<CustomerDetail>(`/customers/${encodeURIComponent(id)}`),
+  erase: (id: string) => api<void>(`/customers/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 }
 
 export interface Dashboard {

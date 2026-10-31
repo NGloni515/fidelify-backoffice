@@ -1,10 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useState, type FormEvent } from 'react'
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { customersApi, type CustomerSummary } from '../api/client'
 import { formatDate } from '../format'
 
 export function CustomersPage() {
+  const notice = (useLocation().state as { notice?: string } | null)?.notice
   const [draft, setDraft] = useState('')
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
@@ -27,6 +28,8 @@ export function CustomersPage() {
     <section>
       <h1>Clientes</h1>
       <p className="muted">Quiénes se inscribieron en tu tarjeta, cuántos sellos llevan y cuándo vinieron por última vez.</p>
+
+      {notice && <div className="alert ok">{notice}</div>}
 
       <form className="card search" onSubmit={onSearch}>
         <label>
