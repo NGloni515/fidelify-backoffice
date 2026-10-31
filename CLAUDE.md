@@ -178,6 +178,13 @@ push a `main` corre `npm run build` y después `npx wrangler deploy`, que lee
   el archivo.
 - **`VITE_API_URL` se deja vacía**: el panel llama a `/api` en su propio origen,
   igual que en desarrollo.
+- **Cada rama que no es `main` sube una Preview** (`npx wrangler preview`), con
+  su propia URL. Una Preview **no hereda `vars`**: lee las suyas de `previews`
+  en `wrangler.jsonc`, y sin ese bloque el build falla. Como no hay backend de
+  pruebas, apuntan al de producción: una Preview entra con cuentas reales y
+  mueve datos reales, con el código de un PR sin mergear. Y una pantalla que
+  necesita una ruta nueva del backend da 404 en la Preview hasta que esa ruta
+  esté desplegada.
 - El Worker no pasa por `tsc -b` ni por Vite: lo compila `wrangler`. Se prueba
   en local con el runtime real, apuntando al backend local:
 
