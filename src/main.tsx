@@ -9,6 +9,7 @@ import { OwnerOnly } from './components/OwnerOnly'
 import { AccountPage } from './pages/AccountPage'
 import { CustomerPage } from './pages/CustomerPage'
 import { CustomersPage } from './pages/CustomersPage'
+import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
 import { Placeholder } from './pages/Placeholder'
 import { TeamPage } from './pages/TeamPage'
@@ -37,10 +38,9 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <Placeholder
-            title="Inicio"
-            description="Clientes inscritos, sellos dados hoy, premios canjeados y clientes que dejaron de venir."
-          />
+          <OwnerOnly title="Inicio">
+            <HomePage />
+          </OwnerOnly>
         ),
       },
       {

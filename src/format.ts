@@ -8,8 +8,12 @@ export const formatDate = (iso: string) => date.format(new Date(iso))
 export const formatDateTime = (iso: string) => dateTime.format(new Date(iso))
 export const formatCalendarDate = (ymd: string) => calendarDate.format(new Date(`${ymd}T00:00:00Z`))
 
+export function plural(count: number, one: string, many: string) {
+  return `${count.toLocaleString('es-EC')} ${count === 1 ? one : many}`
+}
+
 export function stampsLabel(count: number) {
-  return `${count} ${count === 1 ? 'sello' : 'sellos'}`
+  return plural(count, 'sello', 'sellos')
 }
 
 export function movementLabel(type: 'STAMP' | 'REDEEM' | 'ADJUST', amount: number) {

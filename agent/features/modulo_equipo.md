@@ -69,5 +69,5 @@ la persona escribió; lo que pase igual lo frena el backend con su mensaje.
 - **"Olvidé mi contraseña" en el login.** Hoy la de una cajera se la cambia el
   dueño desde Equipo, y la del dueño, soporte.
 - **Corregir el nombre o el correo** de alguien del equipo.
-- **Las demás secciones no distinguen roles**: una cajera sigue viendo Inicio,
-  Mi tarjeta, Cupones y Mensajes.
+- **Las demás secciones no distinguen roles**: una cajera sigue viendo Mi
+  tarjeta, Cupones y Mensajes.

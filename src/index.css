@@ -84,6 +84,12 @@ input, select {
 .tags { display: flex; gap: 6px; margin-top: 4px; }
 .tag { font-size: 0.8rem; padding: 2px 8px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
 
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+.stats .card { margin-top: 0; }
+.stat { display: flex; flex-direction: column; gap: 4px; }
+.stat-label { font-size: 0.95rem; font-weight: 600; }
+.stat-value { font-size: 1.6rem; font-weight: 700; }
+
 .stamps { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
 .stamp { width: 30px; height: 30px; border-radius: 50%; border: 2px dashed var(--border); }
 .stamp.filled { background: var(--accent); border: 2px solid var(--accent); }
