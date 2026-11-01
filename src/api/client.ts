@@ -127,3 +127,28 @@ export interface Dashboard {
 export const dashboardApi = {
   get: () => api<Dashboard>('/dashboard'),
 }
+
+export type MessageAudience = 'ALL' | 'LAPSED' | 'ONE_STAMP_LEFT'
+
+export interface SentMessage {
+  id: string
+  message: string
+  audience: MessageAudience
+  audienceSize: number
+  reached: number
+  sentAt: string
+}
+
+export interface MessagesOverview {
+  maxLength: number
+  limits: { perDay: number; perWeek: number }
+  nextAvailableAt: string | null
+  audiences: { audience: MessageAudience; size: number }[]
+  history: SentMessage[]
+}
+
+export const notificationsApi = {
+  get: () => api<MessagesOverview>('/notifications'),
+  send: (message: string, audience: MessageAudience) =>
+    api<SentMessage>('/notifications', { method: 'POST', body: JSON.stringify({ message, audience }) }),
+}

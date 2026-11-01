@@ -11,6 +11,7 @@ import { CustomerPage } from './pages/CustomerPage'
 import { CustomersPage } from './pages/CustomersPage'
 import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
+import { MessagesPage } from './pages/MessagesPage'
 import { Placeholder } from './pages/Placeholder'
 import { TeamPage } from './pages/TeamPage'
 
@@ -80,7 +81,9 @@ const router = createBrowserRouter([
       {
         path: 'mensajes',
         element: (
-          <Placeholder title="Mensajes" description="Enviar una notificación al celular de todos los clientes o de un grupo." />
+          <OwnerOnly title="Mensajes">
+            <MessagesPage />
+          </OwnerOnly>
         ),
       },
       {
