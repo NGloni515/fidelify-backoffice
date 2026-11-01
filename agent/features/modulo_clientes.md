@@ -4,11 +4,11 @@ Dos pantallas, solo para el dueño:
 
 - **Clientes** (`/clientes`): la lista de quienes se inscribieron, con buscador
   y páginas.
-- **Ficha** (`/clientes/:id`): los datos de un cliente, su tarjeta, su historial
-  y el ajuste manual de sellos.
+- **Ficha** (`/clientes/:id`): los datos de un cliente, su tarjeta, su
+  historial, el ajuste manual de sellos y el borrado de sus datos.
 
-Contraparte de `fidelify-backend/agent/features/modulo_clientes.md` (búsqueda y
-ficha) y `modulo_sellos.md` (la regla del ajuste), que tienen el **contrato de
+Contraparte de `fidelify-backend/agent/features/modulo_clientes.md` (búsqueda,
+ficha y borrado) y `modulo_sellos.md` (la regla del ajuste), que tienen el **contrato de
 los endpoints**. Este documento describe solo el lado del panel.
 
 ---
@@ -18,8 +18,8 @@ los endpoints**. Este documento describe solo el lado del panel.
 | Archivo | Qué |
 |---|---|
 | `src/pages/CustomersPage.tsx` | La lista, y el componente `CustomerRow` |
-| `src/pages/CustomerPage.tsx` | La ficha, con `Detail` y `PassSection` |
-| `src/api/client.ts` | `customersApi` (`search`, `get`), `passesApi.adjust` y los tipos `CustomerList`, `CustomerDetail` y `Movement` |
+| `src/pages/CustomerPage.tsx` | La ficha, con `Detail`, `PassSection` y `EraseSection` |
+| `src/api/client.ts` | `customersApi` (`search`, `get`, `erase`), `passesApi.adjust` y los tipos `CustomerList`, `CustomerDetail` y `Movement` |
 | `src/format.ts` | Fechas en `es-EC` y el texto de cada movimiento ("+2 sellos", "Ajuste: -1 sello") |
 | `src/components/OwnerOnly.tsx` | Envuelve las dos rutas en `main.tsx` |
 | `src/components/Stamps.tsx` | Los círculos de la tarjeta, compartidos con la caja |
@@ -63,10 +63,28 @@ ve a un cliente a la vez, el de la tarjeta que escanea en la caja.
 - Tras un ajuste se invalidan la ficha (`['customer', id]`) y la lista
   (`['customers']`). Nada se pinta antes de la respuesta.
 
+## Borrar los datos
+
+Al final de la ficha, para cuando el cliente lo pide. Qué se borra y qué queda
+lo decide el backend; la pantalla lo explica antes del botón: se van nombre,
+teléfono, correo y cumpleaños, la tarjeta queda anulada también en el celular,
+y los sellos siguen contando en el Inicio, sin nombre.
+
+- **Pide confirmación** (`window.confirm`): no se puede deshacer. El botón es
+  `secondary`, como "Desactivar" en Equipo; el primario de la ficha sigue
+  siendo "Guardar ajuste".
+- Al terminar vuelve a la lista con `replace` (atrás no lleva a una ficha que
+  ya no existe), con el aviso "Se borraron los datos de …" en el `state` de la
+  navegación.
+- Antes de irse descarta la lista guardada (`['customers']`), para que no
+  asome el cliente borrado mientras llega la nueva; la ficha
+  (`['customer', id]`) recién después de salir, porque mientras la pantalla la
+  mira, descartarla la volvería a pedir y daría 404.
+
 ---
 
 ## Sin resolver
 
 - **Ordenar** por última visita o por sellos. Hoy la lista va por nombre.
 - **Las tildes cuentan al buscar**: "maria" no encuentra a "María".
-- **Editar o borrar un cliente.**
+- **Editar un cliente**: corregir su nombre o su teléfono.

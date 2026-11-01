@@ -72,7 +72,7 @@ Detalle en [`modulo_sesion`](features/modulo_sesion.md).
 | `/` | Inicio | **funcional**, solo dueño | Clientes, sellos y canjes de hoy y del periodo, premios por canjear, quiénes vienen más y quiénes dejaron de venir |
 | `/caja` | Caja | **funcional** | Escanear la tarjeta, dar sello, canjear premio |
 | `/clientes` | Clientes | **funcional**, solo dueño | Lista y búsqueda de clientes |
-| `/clientes/:id` | Clientes | **funcional**, solo dueño | Ficha: datos, tarjeta, historial y ajuste manual de sellos |
+| `/clientes/:id` | Clientes | **funcional**, solo dueño | Ficha: datos, tarjeta, historial, ajuste manual de sellos y borrado de los datos |
 | `/tarjeta` | Mi tarjeta | marcador | Logo, colores, cuántos sellos se necesitan y cuál es el premio. Incluye el QR de inscripción |
 | `/cupones` | Cupones | marcador | Cupones con fecha de vencimiento y límite de usos |
 | `/mensajes` | Mensajes | marcador | Enviar una notificación al celular de todos los clientes o de un grupo |

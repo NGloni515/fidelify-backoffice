@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState, type FormEvent } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { customersApi, passesApi, type CustomerDetail } from '../api/client'
 import { Stamps } from '../components/Stamps'
 import { formatCalendarDate, formatDate, formatDateTime, movementLabel } from '../format'
@@ -45,7 +45,44 @@ function Detail({ customer }: { customer: CustomerDetail }) {
       {customer.passes.map((pass) => (
         <PassSection key={pass.serialNumber} customerId={customer.id} pass={pass} />
       ))}
+
+      <EraseSection customer={customer} />
     </>
+  )
+}
+
+function EraseSection({ customer }: { customer: CustomerDetail }) {
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
+  const erase = useMutation({
+    mutationFn: () => customersApi.erase(customer.id),
+    onSuccess: async () => {
+      queryClient.removeQueries({ queryKey: ['customers'] })
+      await navigate('/clientes', { replace: true, state: { notice: `Se borraron los datos de ${customer.name}.` } })
+      // Only once the page has left: removing a query it still watches would refetch it into a 404.
+      queryClient.removeQueries({ queryKey: ['customer', customer.id] })
+    },
+  })
+
+  function onErase() {
+    if (!window.confirm(`¿Borrar los datos de ${customer.name}? Su tarjeta queda anulada y no se puede deshacer.`)) return
+    erase.mutate()
+  }
+
+  return (
+    <div className="card form-stack">
+      <h2>Borrar sus datos</h2>
+      <p className="muted">
+        Si el cliente te lo pide. Se borran su nombre, su teléfono, su correo y su cumpleaños, y su tarjeta queda anulada,
+        también en su celular. Los sellos que ya le diste siguen contando en el Inicio, sin su nombre. No se puede
+        deshacer.
+      </p>
+      {erase.error && <div className="alert error">{erase.error.message}</div>}
+      <button type="button" className="secondary" disabled={erase.isPending} onClick={onErase}>
+        {erase.isPending ? 'Borrando…' : 'Borrar los datos'}
+      </button>
+    </div>
   )
 }
 
