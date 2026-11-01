@@ -46,9 +46,9 @@ Dos, definidos en el backend (`StaffRole`):
 
 El rol llega con la sesión (`user.role`) y decide dos cosas: a dónde se va
 tras entrar (la cajera a `/caja`, el dueño a `/`) y si se ven **Inicio**,
-**Clientes** y **Equipo**, que son solo del dueño. Ocultarlos es cosmética: la
-regla la hace cumplir el backend, que le responde 403 a una cajera. Las demás
-secciones todavía no distinguen roles.
+**Clientes**, **Mensajes** y **Equipo**, que son solo del dueño. Ocultarlos es
+cosmética: la regla la hace cumplir el backend, que le responde 403 a una
+cajera. Las demás secciones todavía no distinguen roles.
 
 ---
 
@@ -75,7 +75,7 @@ Detalle en [`modulo_sesion`](features/modulo_sesion.md).
 | `/clientes/:id` | Clientes | **funcional**, solo dueño | Ficha: datos, tarjeta, historial, ajuste manual de sellos y borrado de los datos |
 | `/tarjeta` | Mi tarjeta | marcador | Logo, colores, cuántos sellos se necesitan y cuál es el premio. Incluye el QR de inscripción |
 | `/cupones` | Cupones | marcador | Cupones con fecha de vencimiento y límite de usos |
-| `/mensajes` | Mensajes | marcador | Enviar una notificación al celular de todos los clientes o de un grupo |
+| `/mensajes` | Mensajes | **funcional**, solo dueño | Mandar un mensaje al celular de todos los clientes o de un grupo, con su tope, y ver los enviados |
 | `/equipo` | Equipo | **funcional**, solo dueño | El equipo; agregar, desactivar y cambiar la contraseña de las cajeras |
 | `/cuenta` | Mi cuenta | **funcional** | Cambiar la contraseña propia |
 
@@ -113,6 +113,7 @@ panel llama a `VITE_API_URL`.
 - Caja: [`modulo_caja`](features/modulo_caja.md)
 - Inicio: [`modulo_inicio`](features/modulo_inicio.md)
 - Clientes: [`modulo_clientes`](features/modulo_clientes.md)
+- Mensajes: [`modulo_mensajes`](features/modulo_mensajes.md)
 - Equipo y Mi cuenta: [`modulo_equipo`](features/modulo_equipo.md)
 - Backend: `fidelify-backend/agent/features/modulo_auth.md` (tokens y contrato
   de la sesión), `modulo_sellos.md` (reglas de sellos y contrato de la caja) y

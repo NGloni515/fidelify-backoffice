@@ -80,7 +80,7 @@ Los valores están en [`../design-system.md`](../design-system.md) §2.1.
 | `muted` | párrafo secundario |
 | `stamps`, `stamp` (+ `filled`) | los círculos de la tarjeta |
 
-`button`, `input`, `select` y `label` están estilizados por etiqueta: un `<button>` es
+`button`, `input`, `select`, `textarea` y `label` están estilizados por etiqueta: un `<button>` es
 primario sin clase, y `className="secondary"` lo hace secundario. Un `<label>`
 que envuelve su `<input>` queda con el texto arriba del campo.
 

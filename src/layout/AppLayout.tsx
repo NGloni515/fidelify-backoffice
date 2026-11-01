@@ -8,7 +8,7 @@ const links = [
   { to: '/clientes', label: 'Clientes', ownerOnly: true },
   { to: '/tarjeta', label: 'Mi tarjeta' },
   { to: '/cupones', label: 'Cupones' },
-  { to: '/mensajes', label: 'Mensajes' },
+  { to: '/mensajes', label: 'Mensajes', ownerOnly: true },
   { to: '/equipo', label: 'Equipo', ownerOnly: true },
   { to: '/cuenta', label: 'Mi cuenta' },
 ]
